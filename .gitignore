@@ -1,0 +1,63 @@
+# CMake / ビルド成果物
+build/
+build-*/
+cpp/build/
+cpp/build-*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CMakeUserPresets.json
+CMakeLists.txt.user
+compile_commands.json
+install_manifest.txt
+Testing/
+
+# RPMパッケージング生成物
+rpmbuild/
+dist/
+
+# Qt / KDEの自動生成物
+*_autogen/
+*.moc
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+*.qmlc
+*.jsc
+.qmlls.ini
+
+# コンパイル成果物
+*.o
+*.obj
+*.a
+*.so
+*.so.*
+
+# エディタ / IDE
+.idea/
+.vscode/
+.vs/
+.cache/
+.clangd
+*.swp
+*.swo
+*~
+*.kdev4
+.kdev4/
+
+# OpenCode / エージェントの作業ファイル
+.omo/
+.opencode/
+
+# テスト用の録画・スクリーンショット・ログ
+*.mkv
+*.mp4
+*.log
+/tmp/
+
+# OS固有
+.DS_Store
+Thumbs.db
+
+# その他
+/gpg

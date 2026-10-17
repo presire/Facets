@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+    <kcfgfile arg="true"/>
+    <group name="Effect-facets">
+        <!-- エフェクトが使うFacetsConfig::EnumStyleと一致させる必要がある
+             切替アニメーションの種類[Cube] / [Flip] / [Deck]既定値Cube -->
+        <entry name="Style" type="Enum">
+            <default>Cube</default>
+            <choices>
+                <choice name="Cube" />
+                <choice name="Flip" />
+                <choice name="Deck" />
+            </choices>
+        </entry>
+        <!-- アニメーションの長さ[ms]既定値0のときは全体のアニメーション速度に追従する
+             範囲0 - 3000 -->
+        <entry name="Duration" type="Int">
+            <default>0</default>
+            <min>0</min>
+            <max>3000</max>
+        </entry>
+        <!-- アニメーション中間でカメラが引く量[%]既定値40
+             範囲0 - 150 -->
+        <entry name="ZoomOut" type="Int">
+            <default>40</default>
+            <min>0</min>
+            <max>150</max>
+        </entry>
+        <!-- 3Dシーンの最大傾き[度]既定値10
+             範囲0 - 30 -->
+        <entry name="TiltAngle" type="Int">
+            <default>10</default>
+            <min>0</min>
+            <max>30</max>
+        </entry>
+        <!-- 視点から遠ざかる面を暗くするか既定値true -->
+        <entry name="Shading" type="Bool">
+            <default>true</default>
+        </entry>
+        <!-- 3Dシーンの背後に表示する壁紙の暗さ[%]既定値65
+             範囲0 - 100 -->
+        <entry name="BackgroundDim" type="Int">
+            <default>65</default>
+            <min>0</min>
+            <max>100</max>
+        </entry>
+        <!-- パネルと画面表示をデスクトップと一緒に動かさず固定するか既定値true -->
+        <entry name="KeepPanels" type="Bool">
+            <default>true</default>
+        </entry>
+    </group>
+</kcfg>

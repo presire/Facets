@@ -1,0 +1,24 @@
+{
+    "KPackageStructure": "KWin/Effect",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "suse"
+            }
+        ],
+        "Category": "Virtual Desktop Switching Animation",
+        "Description": "Switch virtual desktops with a modern 3D animation (cube, flip or deck)",
+        "Description[ja]": "仮想デスクトップをモダンな 3D アニメーション (キューブ / フリップ / デッキ) で切り替えます",
+        "EnabledByDefault": false,
+        "Icon": "preferences-system-windows-effect-slide",
+        "Id": "facets",
+        "License": "GPL",
+        "Name": "Facets",
+        "Name[ja]": "ファセット",
+        "Version": "0.1.0"
+    },
+    "X-KDE-ConfigModule": "kcm_kwin4_genericscripted",
+    "X-KDE-Ordering": 50,
+    "X-KWin-Exclusive-Category": "desktop-animations",
+    "X-Plasma-API": "declarativescript"
+}

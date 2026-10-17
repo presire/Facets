@@ -1,0 +1,20 @@
+{
+    "KPlugin": {
+        "Category": "Virtual Desktop Switching Animation",
+        "Description": "3D transition between virtual desktops",
+        "Description[ja]": "バーチャルデスクトップを 3D で切り替える",
+        "EnabledByDefault": false,
+        "License": "GPL-2.0-or-later",
+        "Name": "Facets",
+        "Name[ja]": "ファセット",
+        "Authors": [
+            {
+                "Name": "Facets Developers"
+            }
+        ]
+    },
+    "X-KDE-ConfigModule": "kwin_facets_config",
+    "org.kde.kwin.effect": {
+        "exclusiveGroup": "desktop-animations"
+    }
+}

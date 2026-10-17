@@ -1,0 +1,76 @@
+name: Test
+
+# ビルドを伴わない静的検査とQML版パッケージのインストール検査
+# C++版のコンパイル検査はbuild.ymlが担当する
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  lint:
+    name: Lint & package check
+    runs-on: ubuntu-24.04
+    # Plasma 6のqmllint / kpackagetool6を使うためTumbleweedコンテナで実行する
+    container: registry.opensuse.org/opensuse/tumbleweed:latest
+    steps:
+      - name: Install tools
+        run: |
+          zypper --non-interactive --gpg-auto-import-keys refresh
+          zypper --non-interactive install --no-recommends \
+            tar gzip jq ShellCheck gettext-tools libxml2-tools qt6-declarative-tools kf6-kpackage kwin6
+
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Validate JSON metadata
+        run: |
+          for f in package/metadata.json cpp/src/effect/metadata.json; do
+            jq -e . "$f" > /dev/null
+          done
+          # QML版とC++版は同じエフェクトidを共有する
+          test "$(jq -r .KPlugin.Id package/metadata.json)" = facets
+
+      - name: Check version consistency
+        # CMake / RPM spec / QML版metadata.jsonのバージョンはリリースタグと一致させる必要がある
+        run: |
+          cmake_version=$(sed -nE 's/^project\(facets VERSION ([0-9.]+) .*/\1/p' cpp/CMakeLists.txt)
+          spec_version=$(sed -nE 's/^Version:[[:space:]]+//p' packaging/rpm/facets.spec)
+          qml_version=$(jq -er .KPlugin.Version package/metadata.json)
+          echo "CMake: $cmake_version, spec: $spec_version, QML: $qml_version"
+          test -n "$cmake_version"
+          test "$cmake_version" = "$spec_version"
+          test "$cmake_version" = "$qml_version"
+
+      - name: Validate XML files
+        run: xmllint --noout package/contents/config/main.xml package/contents/ui/config.ui cpp/src/facets.kcfg
+
+      - name: ShellCheck
+        run: shellcheck install.sh cpp/install.sh packaging/rpm/build-rpm.sh
+
+      - name: Check translations
+        run: |
+          for po in cpp/po/*/*.po; do
+            msgfmt --check --output-file=/dev/null "$po"
+          done
+
+      - name: qmllint
+        # org.kde.kwinはKWin内部でのみ登録されるQMLモジュールなのでimport系の警告は抑止し、構文/型エラーのみで失敗させる
+        run: /usr/lib64/qt6/bin/qmllint --import disable --unqualified info package/contents/ui/*.qml
+
+      - name: Install QML package with kpackagetool6
+        # KWin/EffectのKPackage構造プラグインはkwin6パッケージが提供する
+        run: |
+          export XDG_DATA_HOME="$RUNNER_TEMP/share"
+          kpackagetool6 --type KWin/Effect --install package
+          kpackagetool6 --type KWin/Effect --list | grep -qx facets
+          test -f "$XDG_DATA_HOME/kwin/effects/facets/contents/ui/main.qml"

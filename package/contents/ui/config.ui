@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FacetsConfig</class>
+ <widget class="QWidget" name="FacetsConfig">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>420</width>
+    <height>240</height>
+   </rect>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="styleLabel">
+     <property name="text">
+      <string>Style:</string>
+     </property>
+     <property name="buddy">
+      <cstring>kcfg_Style</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="kcfg_Style">
+     <property name="toolTip">
+      <string>3D transition style used when switching virtual desktops</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Cube</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Flip</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Deck</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="durationLabel">
+     <property name="text">
+      <string>Duration:</string>
+     </property>
+     <property name="buddy">
+      <cstring>kcfg_Duration</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="kcfg_Duration">
+     <property name="toolTip">
+      <string>Length of the switch animation; 0 follows the global animation speed</string>
+     </property>
+     <property name="suffix">
+      <string> ms</string>
+     </property>
+     <property name="specialValueText">
+      <string>Automatic</string>
+     </property>
+     <property name="singleStep">
+      <number>50</number>
+     </property>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>3000</number>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="zoomOutLabel">
+     <property name="text">
+      <string>Zoom out:</string>
+     </property>
+     <property name="buddy">
+      <cstring>kcfg_ZoomOut</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QSpinBox" name="kcfg_ZoomOut">
+     <property name="toolTip">
+      <string>How far the camera pulls back at the middle of the animation</string>
+     </property>
+     <property name="suffix">
+      <string> %</string>
+     </property>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>150</number>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="tiltLabel">
+     <property name="text">
+      <string>Tilt:</string>
+     </property>
+     <property name="buddy">
+      <cstring>kcfg_TiltAngle</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QSpinBox" name="kcfg_TiltAngle">
+     <property name="toolTip">
+      <string>Peak tilt of the 3D scene in degrees</string>
+     </property>
+     <property name="suffix">
+      <string>°</string>
+     </property>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>30</number>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="backgroundDimLabel">
+     <property name="text">
+      <string>Background dimming:</string>
+     </property>
+     <property name="buddy">
+      <cstring>kcfg_BackgroundDim</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QSpinBox" name="kcfg_BackgroundDim">
+     <property name="toolTip">
+      <string>Darkness of the wallpaper shown behind the 3D scene</string>
+     </property>
+     <property name="suffix">
+      <string> %</string>
+     </property>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="kcfg_Shading">
+     <property name="toolTip">
+      <string>Apply directional shading to desktop faces during the animation</string>
+     </property>
+     <property name="text">
+      <string>Darken faces turning away</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QCheckBox" name="kcfg_KeepPanels">
+     <property name="toolTip">
+      <string>Keep panels and on-screen notifications fixed instead of moving them with the desktop</string>
+     </property>
+     <property name="text">
+      <string>Keep panels and notifications in place</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

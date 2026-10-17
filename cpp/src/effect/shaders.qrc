@@ -1,0 +1,9 @@
+<RCC>
+    <!-- 互換/コア両プロファイル向けのGLSLをバイナリへ埋め込む -->
+    <qresource prefix="/effects/facets">
+        <file>shaders/facets.vert</file>
+        <file>shaders/facets.frag</file>
+        <file>shaders/facets_core.vert</file>
+        <file>shaders/facets_core.frag</file>
+    </qresource>
+</RCC>

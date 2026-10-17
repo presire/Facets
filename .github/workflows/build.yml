@@ -1,0 +1,128 @@
+name: Build
+
+# C++版エフェクトをディストリビューションごとのRPM (Wayland版/X11版の両プラグイン) としてビルドし、
+# QML版をKPackageアーカイブにまとめる
+# release.ymlからも[workflow_call]で呼び出される
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # release.ymlから呼ばれた場合も呼び出し元とグループが衝突しないよう接頭辞を付ける
+  group: build-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  rpm:
+    name: RPM (${{ matrix.distro.name }})
+    runs-on: ubuntu-24.04
+    container: ${{ matrix.distro.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # コンパイル済みKWinエフェクトはビルド時と同じバージョンのKWinでしか読み込めないため、
+        # ディストリビューションごとにビルドしてKWinのバージョンを固定したRPMを作る
+        distro:
+          - name: openSUSE Leap 16.0
+            image: registry.opensuse.org/opensuse/leap:16.0
+            family: opensuse
+            dist: .leap16.0
+          - name: openSUSE Tumbleweed
+            image: registry.opensuse.org/opensuse/tumbleweed:latest
+            family: opensuse
+            dist: .tumbleweed
+          - name: Fedora 44
+            image: registry.fedoraproject.org/fedora:44
+            family: fedora
+            dist: .fc44
+    steps:
+      - name: Install packaging tools (openSUSE)
+        if: matrix.distro.family == 'opensuse'
+        run: |
+          zypper --non-interactive --gpg-auto-import-keys refresh
+          zypper --non-interactive install --no-recommends tar gzip rpm-build
+
+      - name: Install packaging tools (Fedora)
+        if: matrix.distro.family == 'fedora'
+        run: dnf -y install --setopt=install_weak_deps=False tar gzip rpm-build 'dnf5-command(builddep)'
+
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install build dependencies (openSUSE)
+        if: matrix.distro.family == 'opensuse'
+        run: |
+          # BuildRequiresはspecファイルを唯一の定義元とする
+          mapfile -t deps < <(rpmspec -q --buildrequires packaging/rpm/facets.spec)
+          zypper --non-interactive install --no-recommends "${deps[@]}"
+
+      - name: Install build dependencies (Fedora)
+        if: matrix.distro.family == 'fedora'
+        run: dnf -y builddep --setopt=install_weak_deps=False packaging/rpm/facets.spec
+
+      - name: Build RPMs
+        run: packaging/rpm/build-rpm.sh "${{ matrix.distro.dist }}"
+
+      - name: Inspect RPMs
+        run: |
+          for rpm in dist/*.rpm; do
+            echo "::group::$rpm"
+            rpm -qip "$rpm"
+            rpm -qlp "$rpm"
+            rpm -qp --requires "$rpm"
+            echo "::endgroup::"
+          done
+
+      - name: Install RPMs
+        # KWinのバージョン固定を含む依存関係が実際に解決できることを確認する
+        run: |
+          mapfile -t rpms < <(find dist -name '*.rpm' ! -name '*.src.rpm')
+          if [ "${{ matrix.distro.family }}" = opensuse ]; then
+            zypper --non-interactive install --no-recommends --allow-unsigned-rpm "${rpms[@]}"
+          else
+            dnf -y install --setopt=install_weak_deps=False "${rpms[@]}"
+          fi
+          for ns in kwin kwin-x11; do
+            rpm -qf "/usr/lib64/qt6/plugins/$ns/effects/plugins/facets.so"
+            rpm -qf "/usr/lib64/qt6/plugins/$ns/effects/configs/kwin_facets_config.so"
+          done
+          # Fedoraのコンテナイメージは%_install_langsでja翻訳を展開しないため、ファイル一覧で確認する
+          rpm -ql facets-common | grep -qx /usr/share/locale/ja/LC_MESSAGES/kwin_effect_facets.mo
+
+      - name: Upload RPMs
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: rpm${{ matrix.distro.dist }}
+          path: dist/*.rpm
+          if-no-files-found: error
+
+  qml-package:
+    name: QML package
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Create KPackage archive
+        id: pack
+        run: |
+          version=$(jq -er '.KPlugin.Version' package/metadata.json)
+          name="facets-qml-${version}.tar.gz"
+          # [kpackagetool6 --install <archive>]で直接インストールできるよう、metadata.jsonをアーカイブ直下に置く
+          tar -C package --sort=name --owner=0 --group=0 --numeric-owner -czf "$name" .
+          tar -tzvf "$name"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+
+      - name: Upload KPackage archive
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: qml-package
+          path: ${{ steps.pack.outputs.name }}
+          if-no-files-found: error

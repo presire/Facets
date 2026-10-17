@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+    <kcfgfile name=""/>
+    <group name="">
+        <!-- contents/ui/constants.jsのConstants.Styleと同期させること -->
+        <entry name="Style" type="Enum">
+            <default>Cube</default>
+            <choices>
+                <choice name="Cube" />
+                <choice name="Flip" />
+                <choice name="Deck" />
+            </choices>
+        </entry>
+        <!-- アニメーション時間 (ミリ秒)、0のときは全体のアニメーション速度に従う -->
+        <entry name="Duration" type="Int">
+            <default>0</default>
+            <min>0</min>
+            <max>3000</max>
+        </entry>
+        <!-- アニメーション中間でカメラが引く量 (パーセント) -->
+        <entry name="ZoomOut" type="Int">
+            <default>40</default>
+            <min>0</min>
+            <max>150</max>
+        </entry>
+        <!-- シーンの最大傾斜角 (度) -->
+        <entry name="TiltAngle" type="Int">
+            <default>10</default>
+            <min>0</min>
+            <max>30</max>
+        </entry>
+        <!-- 視点から裏を向く面を暗くするか -->
+        <entry name="Shading" type="Bool">
+            <default>true</default>
+        </entry>
+        <!-- 3Dシーンの背後に見える壁紙の暗さ (パーセント) -->
+        <entry name="BackgroundDim" type="Int">
+            <default>65</default>
+            <min>0</min>
+            <max>100</max>
+        </entry>
+        <!-- パネルやオンスクリーン表示をデスクトップと一緒に動かさず、手前に固定するか -->
+        <entry name="KeepPanels" type="Bool">
+            <default>true</default>
+        </entry>
+    </group>
+</kcfg>

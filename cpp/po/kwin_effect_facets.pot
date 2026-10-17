@@ -1,0 +1,104 @@
+# Translation template for the Facets KWin effect configuration dialog.
+# Source language is English; the original strings are shown when no
+# translation for the current locale exists.
+# This file is distributed under the same license as the facets package.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: facets 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-17 19:47+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/kcm/facets_config.ui:17
+msgid "Style:"
+msgstr ""
+
+#: src/kcm/facets_config.ui:31
+msgid "Cube"
+msgstr ""
+
+#: src/kcm/facets_config.ui:36
+msgid "Flip"
+msgstr ""
+
+#: src/kcm/facets_config.ui:41
+msgid "Deck"
+msgstr ""
+
+#: src/kcm/facets_config.ui:27
+msgid "3D transition used when switching virtual desktops"
+msgstr ""
+
+#: src/kcm/facets_config.ui:49
+msgid "Duration:"
+msgstr ""
+
+#: src/kcm/facets_config.ui:59
+msgid "Animation length in milliseconds, 0 follows the global animation speed"
+msgstr ""
+
+#: src/kcm/facets_config.ui:62
+msgid "Automatic"
+msgstr ""
+
+#: src/kcm/facets_config.ui:65
+msgid " ms"
+msgstr ""
+
+#: src/kcm/facets_config.ui:81
+msgid "Zoom out:"
+msgstr ""
+
+#: src/kcm/facets_config.ui:91
+msgid "How far the camera pulls back at the middle of the animation"
+msgstr ""
+
+#: src/kcm/facets_config.ui:94 src/kcm/facets_config.ui:146
+msgid " %"
+msgstr ""
+
+#: src/kcm/facets_config.ui:107
+msgid "Tilt angle:"
+msgstr ""
+
+#: src/kcm/facets_config.ui:117
+msgid "Peak tilt of the 3D scene in degrees"
+msgstr ""
+
+#: src/kcm/facets_config.ui:120
+msgid "°"
+msgstr ""
+
+#: src/kcm/facets_config.ui:133
+msgid "Background dimming:"
+msgstr ""
+
+#: src/kcm/facets_config.ui:143
+msgid "Darkness of the wallpaper shown behind the 3D scene"
+msgstr ""
+
+#: src/kcm/facets_config.ui:159
+msgid "Apply directional shading to desktop faces during the animation"
+msgstr ""
+
+#: src/kcm/facets_config.ui:162
+msgid "Shade faces turned away from the viewer"
+msgstr ""
+
+#: src/kcm/facets_config.ui:169
+msgid ""
+"Keep panels and on-screen displays fixed instead of moving them with the "
+"desktop"
+msgstr ""
+
+#: src/kcm/facets_config.ui:172
+msgid "Keep panels and on-screen displays fixed"
+msgstr ""

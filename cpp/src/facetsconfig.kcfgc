@@ -1,0 +1,11 @@
+# KConfigXTの生成設定 (この定義からC++の設定クラスを生成する)
+# 生成元のkcfgファイル
+File=facets.kcfg
+# 生成する設定クラス名
+ClassName=FacetsConfig
+# 生成クラスを入れる名前空間
+NameSpace=KWin
+# シングルトンとしてinstance()を生成する
+Singleton=true
+# 各設定へsetメソッド(ミューテータ)を生成する
+Mutators=true
